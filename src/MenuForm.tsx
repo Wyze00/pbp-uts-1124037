@@ -67,7 +67,7 @@ export default function MenuForm(): React.JSX.Element {
                 <input type="text" onChange={(e) => setMenu({...menu, deskripsi: e.target.value})} value={menu.deskripsi} />
                 <br />
                 Harga
-                <input type="number" onChange={(e) => setMenu({...menu, harga: Number(e.target.value)})} />
+                <input type="number" onChange={(e) => setMenu({...menu, harga: Number(e.target.value)})} placeholder={menu.harga.toString()}/>
                 <br />
                 <select name="kategori" id="kategori" onChange={(e) => setMenu({...menu, kategori: e.target.value as CreateUpdateMenu['kategori']})}>
                     <option value="makanan">Makanan</option>
