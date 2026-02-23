@@ -22,7 +22,6 @@ export default function MenuList(): React.JSX.Element {
             
             if(response.status === 200){
                 const data: Menu[] = await response.json();
-                console.log(data);
                 setMenuList(data);
             }
         };

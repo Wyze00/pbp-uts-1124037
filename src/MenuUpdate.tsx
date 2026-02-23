@@ -59,7 +59,6 @@ export default function MenuUpdate(): React.JSX.Element {
             });
 
             if(response.status === 200){
-                console.log(await response.json());
                 setIsSuccess(true);
                 alert('Menu berhasil diupdate');
             }
