@@ -31,21 +31,25 @@ export default function MenuForm(): React.JSX.Element {
             return;
         }
 
-        const createMenu = async () => {
-            const response = await fetch('http://localhost:5173/api/create-menu', {
-                method: 'POST',
-                body: JSON.stringify(menu),
-                headers: {
-                    'content-type': 'application/json',
+        try {
+            const createMenu = async () => {
+                const response = await fetch('http://localhost:5173/api/create-menu', {
+                    method: 'POST',
+                    body: JSON.stringify(menu),
+                    headers: {
+                        'content-type': 'application/json',
+                    }
+                });
+    
+                if(response.status === 200){
+                    setIsSuccess(true);
                 }
-            });
-
-            if(response.status === 200){
-                setIsSuccess(true);
-            }
-        };
-        
-        createMenu();
+            };
+            
+            createMenu();
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     if(isSuccess){

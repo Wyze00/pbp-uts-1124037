@@ -10,18 +10,22 @@ export default function MenuDetail(): React.JSX.Element {
     const [isDeleteSuccess, setIsDeleteSuccess] = useState<boolean>(false);
 
     useEffect(() => {
-        const fetchDetail = async () => {
-            const response = await fetch(`http://localhost:5173/api/menu/${id}`);
-
-            if(response.status === 200){
-                const data: Menu = await response.json();
-                setMenu(data);
-            }
-
-            setIsLoading(false);
-        };
-
-        fetchDetail();
+        try {
+            const fetchDetail = async () => {
+                const response = await fetch(`http://localhost:5173/api/menu/${id}`);
+    
+                if(response.status === 200){
+                    const data: Menu = await response.json();
+                    setMenu(data);
+                }
+    
+                setIsLoading(false);
+            };
+    
+            fetchDetail();
+        } catch(e){
+            console.log(e);
+        }
     }, [id]);
 
     if(isLoading) {
@@ -47,12 +51,16 @@ export default function MenuDetail(): React.JSX.Element {
         if(!confirm('Yakin Delete Menu ?'))
             return;
 
-        const response = await fetch(`http://localhost:5173/api/delete-menu/${id}`, {
-            method: 'DELETE',
-        })
-
-        if(response.status === 200){
-            setIsDeleteSuccess(true);
+        try {
+            const response = await fetch(`http://localhost:5173/api/delete-menu/${id}`, {
+                method: 'DELETE',
+            })
+    
+            if(response.status === 200){
+                setIsDeleteSuccess(true);
+            }
+        } catch(e){
+            console.log(e);
         }
     };
 

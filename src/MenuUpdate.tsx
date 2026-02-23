@@ -10,18 +10,22 @@ export default function MenuUpdate(): React.JSX.Element {
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
     useEffect(() => {
-        const fetchDetail = async () => {
-            const response = await fetch(`http://localhost:5173/api/menu/${id}`);
-
-            if(response.status === 200){
-                const data: CreateUpdateMenu = await response.json();
-                setMenu(data);
-            }
-
-            setIsLoading(false);
-        };
-
-        fetchDetail();
+        try {
+            const fetchDetail = async () => {
+                const response = await fetch(`http://localhost:5173/api/menu/${id}`);
+    
+                if(response.status === 200){
+                    const data: CreateUpdateMenu = await response.json();
+                    setMenu(data);
+                }
+    
+                setIsLoading(false);
+            };
+    
+            fetchDetail();
+        } catch (e) {
+            console.log(e);
+        }
     }, [id, isSuccess]);
 
     if(isLoading){
@@ -50,22 +54,26 @@ export default function MenuUpdate(): React.JSX.Element {
             return;
         }
 
-        const updateMenu = async () => {
-            const response = await fetch(`http://localhost:5173/api/update-menu/${id}`, {
-                method: 'PUT',
-                body: JSON.stringify(menu),
-                headers: {
-                    'content-type': 'application/json',
+        try {
+            const updateMenu = async () => {
+                const response = await fetch(`http://localhost:5173/api/update-menu/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(menu),
+                    headers: {
+                        'content-type': 'application/json',
+                    }
+                });
+    
+                if(response.status === 200){
+                    setIsSuccess(true);
+                    alert('Menu berhasil diupdate');
                 }
-            });
-
-            if(response.status === 200){
-                setIsSuccess(true);
-                alert('Menu berhasil diupdate');
-            }
-        };
-        
-        updateMenu();
+            };
+            
+            updateMenu();
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     return (

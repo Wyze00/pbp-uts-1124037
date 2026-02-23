@@ -18,16 +18,19 @@ export default function MenuList(): React.JSX.Element {
     const [menuList, setMenuList] = useState<Menu[]>([]);
 
     useEffect(() => {
-        const fetchMenu = async () => {
-            const response = await fetch('http://localhost:5173/api/list-menu');
-            
-            if(response.status === 200){
-                const data: Menu[] = await response.json();
-                setMenuList(data);
-            }
-        };
-
-        fetchMenu();
+        try {
+            const fetchMenu = async () => {
+                const response = await fetch('http://localhost:5173/api/list-menu');
+                
+                if(response.status === 200){
+                    const data: Menu[] = await response.json();
+                    setMenuList(data);
+                }
+            };
+            fetchMenu();
+        } catch (e) {
+            console.log(e);
+        }
     }, []);
     
     if(menuList.length === 0) {
