@@ -42,6 +42,10 @@ export default function MenuDetail(): React.JSX.Element {
     }
 
     const handleDelete = async () => {
+
+        if(!confirm('Yakin Delete Menu ?'))
+            return;
+
         const response = await fetch(`http://localhost:5173/api/delete-menu/${id}`, {
             method: 'DELETE',
         })

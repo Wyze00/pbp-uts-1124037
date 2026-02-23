@@ -7,12 +7,14 @@ const MenuList = lazy(() => import('./MenuList'));
 const MenuDetail = lazy(() => import('./MenuDetail'));
 const MenuCreate = lazy(() => import('./MenuForm'));
 const MenuUpdate = lazy(() => import('./MenuUpdate'));
+const HomePage = lazy(() => import('./HomePage'));
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Layout>
         <Routes>
+          <Route path='/' element={<HomePage/>}/>
           <Route path='/menu' element={<MenuList/>}/>
           <Route path='/menu/:id/update' element={<MenuUpdate/>}/>
           <Route path='/menu/:id' element={<MenuDetail/>}/>
