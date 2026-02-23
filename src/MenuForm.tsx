@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { useState } from "react";
 import { NavLink } from "react-router";
 
@@ -51,7 +52,7 @@ export default function MenuForm(): React.JSX.Element {
         return (
             <div>
                 <p>Menu Berhasil Dibuat</p>
-                <NavLink to="/menu"><button>Menu List</button></NavLink>
+                <NavLink to="/menu"><Button variant="outlined">Menu List</Button></NavLink>
             </div>
         );
     }
@@ -87,7 +88,7 @@ export default function MenuForm(): React.JSX.Element {
                     <option value="large">Large</option>
                 </select>
                 <br />
-                <button onClick={handleClick}>Create Menu</button>
+                <Button variant="outlined" onClick={handleClick}>Create Menu</Button>
             </form>
         </div>
     );

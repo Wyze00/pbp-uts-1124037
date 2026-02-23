@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 
@@ -42,7 +43,7 @@ export default function MenuList(): React.JSX.Element {
             {menuList.map((menu: Menu) => {
                 return (
                     <div key={menu.id} style={{border: '1px solid black'}}>
-                        <NavLink to={`/menu/${menu.id}`}><button>Detail</button></NavLink>
+                        <NavLink to={`/menu/${menu.id}`}><Button variant="outlined">Detail</Button></NavLink>
                         <p>Id : {menu.id}</p>
                         <p>Nama : {menu.nama}</p>
                         <p>Kategori : {menu.kategori}</p>

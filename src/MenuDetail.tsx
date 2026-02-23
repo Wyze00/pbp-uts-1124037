@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router";
 import type { Menu } from "./MenuList";
+import { Button } from "@mui/material";
 
 export default function MenuDetail(): React.JSX.Element {
     const { id } = useParams();
@@ -36,7 +37,7 @@ export default function MenuDetail(): React.JSX.Element {
             <>
                 No Menu Detail With ID : ${id}
                 <br />
-                <NavLink to='/menu'><button>Back To Menu</button></NavLink>
+                <NavLink to='/menu'><Button variant="outlined">Back To Menu</Button></NavLink>
             </>
         )
     }
@@ -59,7 +60,7 @@ export default function MenuDetail(): React.JSX.Element {
         return (
             <div>
                 <p>Menu Berhasil Didelete</p>
-                <NavLink to="/menu"><button>Menu List</button></NavLink>
+                <NavLink to="/menu"><Button variant="outlined">Menu List</Button></NavLink>
             </div>
         );
     }
@@ -67,9 +68,9 @@ export default function MenuDetail(): React.JSX.Element {
     return (
         <>
             <div key={menu.id} style={{border: '1px solid black'}}>
-                <NavLink to={`/menu`}><button>Back To MenuList</button></NavLink>
-                <NavLink to={`/menu/${menu.id}/update`}><button>UpdateMenu</button></NavLink>
-                <button onClick={handleDelete}>Delete Menu</button>
+                <NavLink to={`/menu`}><Button variant="outlined">Back To MenuList</Button></NavLink>
+                <NavLink to={`/menu/${menu.id}/update`}><Button variant="outlined">UpdateMenu</Button></NavLink>
+                <Button variant="outlined" onClick={handleDelete}>Delete Menu</Button>
                 <p>Id : {menu.id}</p>
                 <p>Nama : {menu.nama}</p>
                 <p>Kategori : {menu.kategori}</p>

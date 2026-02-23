@@ -1,6 +1,7 @@
 import { NavLink, useParams } from "react-router";
 import type { CreateUpdateMenu } from "./MenuForm";
 import { useEffect, useState } from "react";
+import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 export default function MenuUpdate(): React.JSX.Element {
     const { id } = useParams();
@@ -36,7 +37,7 @@ export default function MenuUpdate(): React.JSX.Element {
             <>
                 No Menu With ID : ${id}
                 <br />
-                <NavLink to='/menu'><button>Back To Menu</button></NavLink>
+                <NavLink to='/menu'><Button variant="outlined">Back To Menu</Button></NavLink>
             </>
         )
     }
@@ -70,8 +71,8 @@ export default function MenuUpdate(): React.JSX.Element {
     return (
 
         <div key={id} style={{border: '1px solid black'}}>
-            <NavLink to={`/menu`}><button>Back To MenuList</button></NavLink>
-            <NavLink to={`/menu/${id}`}><button>Back To Menu Detail</button></NavLink>
+            <NavLink to={`/menu`}><Button variant="outlined">Back To MenuList</Button></NavLink>
+            <NavLink to={`/menu/${id}`}><Button variant="outlined">Back To Menu Detail</Button></NavLink>
             <p>Id : {id}</p>
             <br />
             Nama
@@ -102,7 +103,7 @@ export default function MenuUpdate(): React.JSX.Element {
                 <option value="large">Large</option>
             </select>
             <br />
-            <button onClick={handleUpdate}>Update</button>
+            <Button variant="outlined" onClick={handleUpdate}>Update</Button>
         </div>
     );
 }
