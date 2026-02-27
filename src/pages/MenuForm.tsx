@@ -1,18 +1,10 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { NavLink } from "react-router";
-
-export type CreateUpdateMenu = {
-    nama: string;
-    deskripsi: string;
-    harga: number;
-    kategori: 'makanan' | 'minuman';
-    label: 'vegan' | 'gluten_free' | 'halal' | 'low_calorie';
-    size: 'small' | 'large' | 'medium';
-}
+import type { CreateMenu } from "../types/CreateMenu";
 
 export default function MenuForm(): React.JSX.Element {
-    const [menu, setMenu] = useState<CreateUpdateMenu>({
+    const [menu, setMenu] = useState<CreateMenu>({
         nama: '',
         deskripsi: '',
         harga: 0,
@@ -23,6 +15,19 @@ export default function MenuForm(): React.JSX.Element {
 
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
+    const createMenu = useCallback(async (menuData: CreateMenu) => {
+        const response = await fetch('http://localhost:5173/api/create-menu', {
+            method: 'POST',
+            body: JSON.stringify(menuData),
+            headers: {
+                'content-type': 'application/json',
+            }
+        });
+        if(response.status === 200){
+            setIsSuccess(true);
+        }
+    }, []);
+
     const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault();
 
@@ -32,21 +37,7 @@ export default function MenuForm(): React.JSX.Element {
         }
 
         try {
-            const createMenu = async () => {
-                const response = await fetch('http://localhost:5173/api/create-menu', {
-                    method: 'POST',
-                    body: JSON.stringify(menu),
-                    headers: {
-                        'content-type': 'application/json',
-                    }
-                });
-    
-                if(response.status === 200){
-                    setIsSuccess(true);
-                }
-            };
-            
-            createMenu();
+            createMenu(menu);
         } catch (e) {
             console.log(e);
         }
@@ -74,19 +65,19 @@ export default function MenuForm(): React.JSX.Element {
                 Harga
                 <input type="number" onChange={(e) => setMenu({...menu, harga: Number(e.target.value)})} placeholder={menu.harga.toString()}/>
                 <br />
-                <select name="kategori" id="kategori" onChange={(e) => setMenu({...menu, kategori: e.target.value as CreateUpdateMenu['kategori']})}>
+                <select name="kategori" id="kategori" onChange={(e) => setMenu({...menu, kategori: e.target.value as CreateMenu['kategori']})}>
                     <option value="makanan">Makanan</option>
                     <option value="minuman">Minuman</option>
                 </select>
                 <br />
-                <select name="label" id="label" onChange={(e) => setMenu({...menu, label: e.target.value as CreateUpdateMenu['label']})}>
+                <select name="label" id="label" onChange={(e) => setMenu({...menu, label: e.target.value as CreateMenu['label']})}>
                     <option value="vegan">Vegan</option>
                     <option value="gluten_free">Gluten Free</option>
                     <option value="halal">Halal</option>
                     <option value="low_cal">Low Calorie</option>
                 </select>
                 <br />
-                <select name="size" id="size" onChange={(e) => setMenu({...menu, size: e.target.value as CreateUpdateMenu['size']})}>
+                <select name="size" id="size" onChange={(e) => setMenu({...menu, size: e.target.value as CreateMenu['size']})}>
                     <option value="small">Small</option>
                     <option value="medium">Medium</option>
                     <option value="large">Large</option>

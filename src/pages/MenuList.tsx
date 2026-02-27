@@ -1,32 +1,26 @@
 import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { NavLink } from "react-router";
-
-export type Menu = {
-    createdAt: string;
-    deskripsi: string;
-    harga: number;
-    id: string;
-    kategori: 'makanan' | 'minuman';
-    label: 'vegan' | 'glutten-free' | 'halal' | 'low calorie';
-    size: 'small' | 'large' | 'medium';
-    nama: string;
-    updatedAt: string;
-}
+import type { Menu } from "../types/Menu";
+import { useAppDispatch } from "../hooks/useAppDispatch";
+import { useAppSelector } from "../hooks/useAppSelector";
+import { menuSliceActions } from "../redux/menuSlice";
 
 export default function MenuList(): React.JSX.Element {
-    const [menuList, setMenuList] = useState<Menu[]>([]);
+    const menuList = useAppSelector(({menu}) => menu);
+    const dispatch = useAppDispatch();
+
+    const fetchMenu = useCallback(async () => {
+        const response = await fetch('http://localhost:5173/api/list-menu');
+                
+        if(response.status === 200){
+            const data: Menu[] = await response.json();
+            dispatch(menuSliceActions.setState(data));
+        }
+    }, []);
 
     useEffect(() => {
         try {
-            const fetchMenu = async () => {
-                const response = await fetch('http://localhost:5173/api/list-menu');
-                
-                if(response.status === 200){
-                    const data: Menu[] = await response.json();
-                    setMenuList(data);
-                }
-            };
             fetchMenu();
         } catch (e) {
             console.log(e);

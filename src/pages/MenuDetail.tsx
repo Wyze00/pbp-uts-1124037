@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router";
-import type { Menu } from "./MenuList";
 import { Button } from "@mui/material";
+import type { Menu } from "../types/Menu";
 
 export default function MenuDetail(): React.JSX.Element {
     const { id } = useParams();
@@ -9,19 +9,29 @@ export default function MenuDetail(): React.JSX.Element {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isDeleteSuccess, setIsDeleteSuccess] = useState<boolean>(false);
 
+    const fetchDetail = useCallback(async () => {
+        const response = await fetch(`http://localhost:5173/api/menu/${id}`);
+    
+        if(response.status === 200){
+            const data: Menu = await response.json();
+            setMenu(data);
+        }
+
+        setIsLoading(false);
+    }, []);
+
+    const deleteMenu = useCallback(async () => {
+        const response = await fetch(`http://localhost:5173/api/delete-menu/${id}`, {
+            method: 'DELETE',
+        })
+
+        if(response.status === 200){
+            setIsDeleteSuccess(true);
+        }
+    }, [id]);
+
     useEffect(() => {
         try {
-            const fetchDetail = async () => {
-                const response = await fetch(`http://localhost:5173/api/menu/${id}`);
-    
-                if(response.status === 200){
-                    const data: Menu = await response.json();
-                    setMenu(data);
-                }
-    
-                setIsLoading(false);
-            };
-    
             fetchDetail();
         } catch(e){
             console.log(e);
@@ -46,19 +56,13 @@ export default function MenuDetail(): React.JSX.Element {
         )
     }
 
-    const handleDelete = async () => {
+    const handleDelete = () => {
 
         if(!confirm('Yakin Delete Menu ?'))
             return;
 
         try {
-            const response = await fetch(`http://localhost:5173/api/delete-menu/${id}`, {
-                method: 'DELETE',
-            })
-    
-            if(response.status === 200){
-                setIsDeleteSuccess(true);
-            }
+            deleteMenu();
         } catch(e){
             console.log(e);
         }

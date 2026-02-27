@@ -1,17 +1,20 @@
 import { lazy, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router'
-import Layout from './Layout';
+import Layout from './components/Layout';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
-const MenuList = lazy(() => import('./MenuList'));
-const MenuDetail = lazy(() => import('./MenuDetail'));
-const MenuCreate = lazy(() => import('./MenuForm'));
-const MenuUpdate = lazy(() => import('./MenuUpdate'));
-const HomePage = lazy(() => import('./HomePage'));
+const MenuList = lazy(() => import('./pages/MenuList'));
+const MenuDetail = lazy(() => import('./pages/MenuDetail'));
+const MenuCreate = lazy(() => import('./pages/MenuForm'));
+const MenuUpdate = lazy(() => import('./pages/MenuUpdate'));
+const HomePage = lazy(() => import('./pages/HomePage'));
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
+    <Provider store={store}>
       <Layout>
         <Routes>
           <Route path='/' element={<HomePage/>}/>
@@ -21,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path='/menu/create' element={<MenuCreate/>}/>
         </Routes>    
       </Layout>
+    </Provider>
     </BrowserRouter>
   </StrictMode>,
 )

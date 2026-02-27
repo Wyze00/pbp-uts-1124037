@@ -1,27 +1,42 @@
 import { NavLink, useParams } from "react-router";
-import type { CreateUpdateMenu } from "./MenuForm";
-import { useEffect, useState } from "react";
-import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
+import { Button } from "@mui/material";
+import type { UpdateMenu } from "../types/UpdateMenu";
 
 export default function MenuUpdate(): React.JSX.Element {
     const { id } = useParams();
-    const [menu, setMenu] = useState<CreateUpdateMenu | null>(null);
+    const [menu, setMenu] = useState<UpdateMenu | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
+    const fetchDetail = useCallback(async () => {
+        const response = await fetch(`http://localhost:5173/api/menu/${id}`);
+
+        if(response.status === 200){
+            const data: UpdateMenu = await response.json();
+            setMenu(data);
+        }
+
+        setIsLoading(false);
+    }, [id]);
+
+    const updateMenu = useCallback(async (menuData: UpdateMenu) => {
+        const response = await fetch(`http://localhost:5173/api/update-menu/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(menuData),
+            headers: {
+                'content-type': 'application/json',
+            }
+        });
+
+        if(response.status === 200){
+            setIsSuccess(true);
+            alert('Menu berhasil diupdate');
+        }
+    }, [id]);
+
     useEffect(() => {
         try {
-            const fetchDetail = async () => {
-                const response = await fetch(`http://localhost:5173/api/menu/${id}`);
-    
-                if(response.status === 200){
-                    const data: CreateUpdateMenu = await response.json();
-                    setMenu(data);
-                }
-    
-                setIsLoading(false);
-            };
-    
             fetchDetail();
         } catch (e) {
             console.log(e);
@@ -55,22 +70,7 @@ export default function MenuUpdate(): React.JSX.Element {
         }
 
         try {
-            const updateMenu = async () => {
-                const response = await fetch(`http://localhost:5173/api/update-menu/${id}`, {
-                    method: 'PUT',
-                    body: JSON.stringify(menu),
-                    headers: {
-                        'content-type': 'application/json',
-                    }
-                });
-    
-                if(response.status === 200){
-                    setIsSuccess(true);
-                    alert('Menu berhasil diupdate');
-                }
-            };
-            
-            updateMenu();
+            updateMenu(menu);
         } catch (e) {
             console.log(e);
         }
@@ -93,19 +93,19 @@ export default function MenuUpdate(): React.JSX.Element {
             Harga
             <input type="number" onChange={(e) => setMenu({...menu, harga: Number(e.target.value)})} placeholder={menu.harga.toString()}/>
             <br />
-            <select value={menu.kategori} name="kategori" id="kategori" onChange={(e) => setMenu({...menu, kategori: e.target.value as CreateUpdateMenu['kategori']})}>
+            <select value={menu.kategori} name="kategori" id="kategori" onChange={(e) => setMenu({...menu, kategori: e.target.value as UpdateMenu['kategori']})}>
                 <option value="makanan">Makanan</option>
                 <option value="minuman">Minuman</option>
             </select>
             <br />
-            <select value={menu.label} name="label" id="label" onChange={(e) => setMenu({...menu, label: e.target.value as CreateUpdateMenu['label']})}>
+            <select value={menu.label} name="label" id="label" onChange={(e) => setMenu({...menu, label: e.target.value as UpdateMenu['label']})}>
                 <option value="vegan">Vegan</option>
                 <option value="gluten_free">Gluten Free</option>
                 <option value="halal">Halal</option>
                 <option value="low_cal">Low Calorie</option>
             </select>
             <br />
-            <select value={menu.size} name="size" id="size" onChange={(e) => setMenu({...menu, size: e.target.value as CreateUpdateMenu['size']})}>
+            <select value={menu.size} name="size" id="size" onChange={(e) => setMenu({...menu, size: e.target.value as UpdateMenu['size']})}>
                 <option value="small">Small</option>
                 <option value="medium">Medium</option>
                 <option value="large">Large</option>
