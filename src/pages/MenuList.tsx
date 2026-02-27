@@ -1,10 +1,9 @@
-import { Button } from "@mui/material";
 import { useCallback, useEffect } from "react";
-import { NavLink } from "react-router";
 import type { Menu } from "../types/Menu";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { menuSliceActions } from "../redux/menuSlice";
+import MenuCard from "../components/MenuCard";
 
 export default function MenuList(): React.JSX.Element {
     const menuList = useAppSelector(({menu}) => menu);
@@ -12,47 +11,29 @@ export default function MenuList(): React.JSX.Element {
 
     const fetchMenu = useCallback(async () => {
         const response = await fetch('http://localhost:5173/api/list-menu');
-                
         if(response.status === 200){
             const data: Menu[] = await response.json();
             dispatch(menuSliceActions.setState(data));
         }
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
-        try {
-            fetchMenu();
-        } catch (e) {
-            console.log(e);
-        }
-    }, []);
+        try { fetchMenu(); } catch (e) { console.log(e); }
+    }, [fetchMenu]);
     
     if(menuList.length === 0) {
         return (
-            <>
-                Tidak ada data
-            </>
+            <div className="flex flex-col items-center py-20">
+                <p className="text-slate-400 italic">Belum ada data menu tersedia...</p>
+            </div>
         );
     } 
 
     return (
-        <div>
-            {menuList.map((menu: Menu) => {
-                return (
-                    <div key={menu.id} style={{border: '1px solid black'}}>
-                        <NavLink to={`/menu/${menu.id}`}><Button variant="outlined">Detail</Button></NavLink>
-                        <p>Id : {menu.id}</p>
-                        <p>Nama : {menu.nama}</p>
-                        <p>Kategori : {menu.kategori}</p>
-                        <p>Label : {menu.label}</p>
-                        <p>Deskripsi : {menu.deskripsi}</p>
-                        <p>Size : {menu.size}</p>
-                        <p>Harga : {menu.harga}</p>
-                        <p>CreatedAt : {menu.createdAt}</p>
-                        <p>UpdatedAt : {menu.updatedAt}</p>
-                    </div>
-                );
-            })}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {menuList.map((menu: Menu) => (
+                <MenuCard menu={menu}></MenuCard>
+            ))}
         </div>
     );
 }
