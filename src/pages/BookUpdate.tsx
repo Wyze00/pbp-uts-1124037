@@ -31,7 +31,7 @@ export default function BookUpdate(): React.JSX.Element {
 
         if(response.status === 200){
             setIsSuccess(true);
-            alert('Menu berhasil diupdate');
+            alert('Buku berhasil diupdate');
         }
     }, [id]);
 

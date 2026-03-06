@@ -1,17 +1,19 @@
 import { Home, ListAlt } from "@mui/icons-material";
 import type { PropsWithChildren } from "react";
 import { NavLink } from "react-router";
+import { WordRotate } from "./ui/word-rotate";
+import { LightRays } from "@/components/ui/light-rays"
+import { ScrollProgress } from "./ui/scroll-progress";
 
 export default function Layout(props: PropsWithChildren): React.JSX.Element {
     return (
         <div className="min-h-screen overflow-y-scroll bg-[#FFF8F1] font-sans text-slate-700">
+            <LightRays length="100vh" color="rgba(160, 210, 255, 0.2)" />
             <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-orange-100 px-6 py-4">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
 
                     <div className="flex items-center gap-2">
-                        <span className="text-xl font-bold bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent">
-                            BookAps
-                        </span>
+                        <WordRotate words={['Deliver', 'Cepat', 'Dengan', 'BookApp']} className="text-xl font-bold bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent" />
                     </div>
 
                     <div className="flex items-center gap-2 sm:gap-4">
@@ -54,6 +56,7 @@ export default function Layout(props: PropsWithChildren): React.JSX.Element {
             <footer className="text-center py-8 text-slate-400 text-sm">
                 &copy; 2026 Book Apps. 
             </footer>
+            <ScrollProgress />
         </div>
     );
 }

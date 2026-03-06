@@ -1,6 +1,7 @@
 import { NavLink } from "react-router";
 import { Visibility } from "@mui/icons-material";
 import type { Book } from "@/types/Book.types";
+import { BorderBeam } from "./ui/border-beam";
 
 type BookCardProps = {
     book: Book
@@ -22,6 +23,7 @@ export default function BookCard({ book }: BookCardProps): React.JSX.Element {
                 <Visibility fontSize="small" />
                 Detail Buku
             </NavLink>
+            <BorderBeam duration={10}/>
         </div>
     );
 }

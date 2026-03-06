@@ -1,6 +1,7 @@
 import type { Book } from "@/types/Book.types";
 import { NavLink } from "react-router";
 import { ArrowBack, Edit, BookmarkAdd, BookmarkAdded, BookmarkRemove } from "@mui/icons-material";
+import { BlurFade } from "./ui/blur-fade";
 
 type BookCardDetailProps = {
     book: Book;
@@ -39,15 +40,21 @@ export default function BookCardDetail({ book, onBorrow }: BookCardDetailProps):
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-6">
-                    <h1 className="text-4xl font-extrabold text-slate-800">{book.judul}</h1>
-                    <p className="text-lg text-slate-500 leading-relaxed bg-orange-50/50 p-6 rounded-[2rem] border border-orange-100">
-                        {book.deskripsi}
-                    </p>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                        {infoItem("Kategori", book.kategori)}
-                        {infoItem("Status", book.status)}
-                        {infoItem("Tahun", book.tahun)}
-                    </div>
+                    <BlurFade>
+                        <h1 className="text-4xl font-extrabold text-slate-800">{book.judul}</h1>
+                    </BlurFade>
+                    <BlurFade delay={0.25}>
+                        <p className="text-lg text-slate-500 leading-relaxed bg-orange-50/50 p-6 rounded-[2rem] border border-orange-100">
+                            {book.deskripsi}
+                        </p>
+                    </BlurFade>
+                    <BlurFade delay={0.5}>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            {infoItem("Kategori", book.kategori)}
+                            {infoItem("Status", book.status)}
+                            {infoItem("Tahun", book.tahun)}
+                        </div>
+                    </BlurFade>
                 </div>
                 <div className="bg-white border border-orange-100 p-8 rounded-[2.5rem] shadow-xl shadow-orange-100/30 h-fit">
                     <div>

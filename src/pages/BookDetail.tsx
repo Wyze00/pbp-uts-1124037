@@ -27,11 +27,14 @@ export default function bookDetail(): React.JSX.Element {
          const borrow = async ()  => {
             const nama: string | null = prompt('Masukan Nama');
 
+            if (nama === null)
+                return;
+
              const response = await fetch(`/api/buku/${id}/pinjam`, {
                 method: 'POST',
                 body: JSON.stringify({
                     peminjam: {
-                        nama:  nama || 'anonymous',
+                        nama:  nama,
                     }
                 }),
                 headers: { 'content-type': 'application/json' }
