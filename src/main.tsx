@@ -2,29 +2,23 @@ import { lazy, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import Layout from './components/Layout';
-import { Provider } from 'react-redux';
-import { store } from './redux/store';
 
-const MenuList = lazy(() => import('./pages/MenuList'));
-const MenuDetail = lazy(() => import('./pages/MenuDetail'));
-const MenuCreate = lazy(() => import('./pages/MenuForm'));
-const MenuUpdate = lazy(() => import('./pages/MenuUpdate'));
 const HomePage = lazy(() => import('./pages/HomePage'));
+const BookList = lazy(() => import('./pages/BookList'));
+const BookDetail = lazy(() => import('./pages/BookDetail'));
+const BookUpdate = lazy(() => import('./pages/BookUpdate'));
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-    <Provider store={store}>
       <Layout>
         <Routes>
           <Route path='/' element={<HomePage/>}/>
-          <Route path='/menu' element={<MenuList/>}/>
-          <Route path='/menu/:id/update' element={<MenuUpdate/>}/>
-          <Route path='/menu/:id' element={<MenuDetail/>}/>
-          <Route path='/menu/create' element={<MenuCreate/>}/>
+          <Route path='/book' element={<BookList />}/>
+          <Route path='/book/:id/update' element={<BookUpdate />}/>
+          <Route path='/book/:id' element={<BookDetail />}/>
         </Routes>    
       </Layout>
-    </Provider>
     </BrowserRouter>
   </StrictMode>,
 )

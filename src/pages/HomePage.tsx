@@ -5,10 +5,10 @@ export default function HomePage(): React.JSX.Element {
                 <span className="text-4xl">🍊</span>
             </div>
             <h1 className="text-4xl font-bold text-slate-800 mb-4">
-                Selamat Datang di <span className="text-orange-500">MenuApps</span>
+                Selamat Datang di <span className="text-orange-500">BookAps</span>
             </h1>
             <p className="text-slate-500 max-w-md">
-                Kelola daftar kuliner Anda dengan antarmuka yang modern, bersih, dan menyegarkan.
+                Kelola daftar buku dengan cepat dan baik.
             </p>
         </div>
     );
